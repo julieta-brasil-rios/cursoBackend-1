@@ -1,0 +1,12 @@
+<h1>Lista de Productos</h1>
+<a href="/realtimeproducts">
+  <button>Administrar productos en tiempo real</button>
+</a>
+<div class="products">
+  {{#each products}}
+    <div class="card">
+      <div><strong>{{this.title}}</strong></div>
+      <div class="price">$ {{this.price}}</div>
+    </div>
+  {{/each}}
+</div>

@@ -1,10 +1,11 @@
 import fs from "fs";
 import crypto from "crypto";
-
+import ProductManager from "./ProductManager.js";
 
 export default class CartManager {
   constructor(path) {
     this.path = path;
+    this.productManager = new ProductManager("./src/data/products.json");
   }
 
   async getCarts() {
@@ -15,12 +16,15 @@ export default class CartManager {
 
   async createCart() {
     const carts = await this.getCarts();
+
     const newCart = {
       id: crypto.randomUUID(),
       products: [],
     };
+
     carts.push(newCart);
     await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2));
+
     return newCart;
   }
 
@@ -32,17 +36,22 @@ export default class CartManager {
   async addProductToCart(cid, pid) {
     const carts = await this.getCarts();
     const cart = carts.find(c => c.id === cid);
+
     if (!cart) return null;
 
-    const product = cart.products.find(p => p.product === pid);
+    const productExists = await this.productManager.getProductById(pid);
+    if (!productExists) throw new Error("El producto no existe");
 
-    if (product) {
-      product.quantity += 1;
+    const productInCart = cart.products.find(p => p.product === pid);
+
+    if (productInCart) {
+      productInCart.quantity += 1;
     } else {
       cart.products.push({ product: pid, quantity: 1 });
     }
 
     await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2));
+
     return cart;
   }
 }

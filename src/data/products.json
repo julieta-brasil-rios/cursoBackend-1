@@ -1,24 +1,17 @@
 [
   {
-    "title": "Buzo oversize",
-    "description": "Algodón",
-    "price": 22000,
-    "stock": 5,
-    "category": "indumentaria",
-    "status": true,
-    "code": "BUZO001",
-    "thumbnails": [],
-    "id": "39e8d342-b13e-46ea-a67b-a9533eec770f"
+    "title": "buzo nike",
+    "price": "235.000",
+    "id": "724ece5e-d735-41a6-9966-8a3a46daa8cd"
   },
   {
-    "title": "Buzo oversize",
-    "description": "Algodón",
-    "price": 22000,
-    "stock": 5,
-    "category": "indumentaria",
-    "status": true,
-    "code": "BUZO001",
-    "thumbnails": [],
-    "id": "6b345078-f4cb-42da-b7f6-b78a30898fa9"
+    "title": "campera adidas",
+    "price": "327.000",
+    "id": "4be07349-0d4a-4db6-a7fa-cc36fa6b76af"
+  },
+  {
+    "title": "camiseta polo",
+    "price": "176.000",
+    "id": "686e8beb-fdb5-46b6-9679-73f8e2c6bf3f"
   }
 ]
