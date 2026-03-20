@@ -6,8 +6,9 @@
   <h2>Agregar producto</h2>
   <input id="title" placeholder="Título">
   <input id="price" placeholder="Precio">
-  <button class="btn-add" onclick="addProduct()">Agregar</button>
+  <button onclick="addProduct()">Agregar</button>
 </div>
+
 
 <script src="/socket.io/socket.io.js"></script>
 
@@ -37,11 +38,13 @@
     products.forEach(p => {
       list.innerHTML += `
         <div class="card">
-          <div><strong>${p.title}</strong></div>
-          <div class="price">$ ${p.price}</div>
-          <button class="btn-delete" onclick="deleteProduct('${p.id}')">
-            Eliminar
-          </button>
+          <a href="/products/${p._id}">
+  <strong>${p.title}</strong>
+</a>
+
+
+          <div>$${p.price}</div>
+          <button onclick="deleteProduct('${p._id}')">Eliminar</button>
         </div>
       `;
     });

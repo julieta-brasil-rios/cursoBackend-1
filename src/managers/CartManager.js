@@ -1,6 +1,6 @@
 import fs from "fs";
 import crypto from "crypto";
-import ProductManager from "./ProductManager.js";
+import ProductManager from "./productManager";
 
 export default class CartManager {
   constructor(path) {

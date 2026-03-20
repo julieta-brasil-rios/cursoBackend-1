@@ -3,16 +3,24 @@ import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import http from "http";
 
+import "./models/ProductModel.js";
+import ProductModel from "./models/ProductModel.js"; 
+
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.router.js";
-import ProductManager from "./managers/ProductManager.js";
+
+import mongoose from "mongoose";
+
+mongoose.connect("mongodb+srv://proyecto:juliproyecto@cluster0.6ohc4gk.mongodb.net/?appName=Cluster0")
+.then(() => console.log("MongoDB conectado"))
+.catch(error => console.log(error));
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const manager = new ProductManager("./src/data/products.json");
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,18 +41,18 @@ app.use("/", viewsRouter);
 io.on("connection", async (socket) => {
   console.log("🟢 Cliente conectado");
 
-  const products = await manager.getProducts();
+  const products = await ProductModel.find().lean();
   socket.emit("updateProducts", products);
 
   socket.on("addProduct", async (product) => {
-    await manager.addProduct(product);
-    const updatedProducts = await manager.getProducts();
+    await ProductModel.create(product);
+    const updatedProducts = await ProductModel.find().lean();
     io.emit("updateProducts", updatedProducts);
   });
 
   socket.on("deleteProduct", async (id) => {
-    await manager.deleteProduct(id);
-    const updatedProducts = await manager.getProducts();
+    await ProductModel.findByIdAndDelete(id);
+    const updatedProducts = await ProductModel.find().lean();
     io.emit("updateProducts", updatedProducts);
   });
 
@@ -52,7 +60,6 @@ io.on("connection", async (socket) => {
     console.log("🔴 Cliente desconectado");
   });
 });
-
 
 server.listen(8080, () => {
   console.log("🚀 Servidor escuchando en puerto 8080");
